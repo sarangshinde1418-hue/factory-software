@@ -1,0 +1,6 @@
+{
+  "name": "ApexFactory ERP",
+  "description": "Production-ready Factory Management ERP with dynamic formula builder, unit conversion, lot-wise inventory ledger, batch tracking, and quality management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

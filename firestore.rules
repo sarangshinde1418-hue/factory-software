@@ -1,0 +1,116 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isBootstrappedAdmin() {
+      return isSignedIn() && request.auth.token.email == 'sarangshinde1418@gmail.com';
+    }
+
+    // Connection testing
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Raw Materials
+    match /rawMaterials/{materialId} {
+      allow read, write: if true;
+    }
+
+    // Packaging Materials
+    match /packagingMaterials/{packagingId} {
+      allow read, write: if true;
+    }
+
+    // Products Catalog
+    match /products/{productId} {
+      allow read, write: if true;
+    }
+
+    // Formulas & Versions
+    match /formulas/{formulaId} {
+      allow read, write: if true;
+    }
+
+    // Packaging Formulas
+    match /packagingFormulas/{packFormulaId} {
+      allow read, write: if true;
+    }
+
+    // Unit Conversion Rules
+    match /conversionRules/{ruleId} {
+      allow read, write: if true;
+    }
+
+    // Suppliers
+    match /suppliers/{supplierId} {
+      allow read, write: if true;
+    }
+
+    // Inventory Stock Ledger Transactions (Immutable ledger - updates and deletes prohibited)
+    match /inventoryTransactions/{transactionId} {
+      allow read, create: if true;
+      allow update, delete: if false;
+    }
+
+    // Production Batches
+    match /productionBatches/{batchId} {
+      allow read, write: if true;
+    }
+
+    // Finished Goods Inventory
+    match /finishedGoods/{goodId} {
+      allow read, write: if true;
+    }
+
+    // Audit Logs (Append-only)
+    match /auditLogs/{logId} {
+      allow read, create: if true;
+      allow update, delete: if false;
+    }
+
+    // Factory Settings
+    match /settings/{settingsId} {
+      allow read, write: if true;
+    }
+
+    // Customer Parties (Outgoing Sales)
+    match /parties/{partyId} {
+      allow read, write: if true;
+    }
+
+    // Outgoing Sales Transactions
+    match /salesOrders/{orderId} {
+      allow read, write: if true;
+    }
+
+    // Worker Tasks
+    match /tasks/{taskId} {
+      allow read, write: if true;
+    }
+
+    // Worker Daily Attendance
+    match /attendance/{attendanceId} {
+      allow read, write: if true;
+    }
+
+    // Backup Logs
+    match /backups/{backupId} {
+      allow read, write: if true;
+    }
+
+    // Default deny for anything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

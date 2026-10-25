@@ -1,0 +1,331 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with role-based access control",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "manager", "storekeeper", "operator"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "RawMaterial": {
+      "title": "RawMaterial",
+      "description": "Factory raw material inventory item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "physicalForm": { "type": "string", "enum": ["liquid", "powder", "granules", "chemical", "paste", "solid", "custom"] },
+        "unit": { "type": "string" },
+        "currentStock": { "type": "number" },
+        "openingStock": { "type": "number" },
+        "minimumStock": { "type": "number" },
+        "unitCost": { "type": "number" },
+        "supplierId": { "type": "string" },
+        "supplierName": { "type": "string" },
+        "lotNumber": { "type": "string" },
+        "mfgDate": { "type": "string" },
+        "expiryDate": { "type": "string" },
+        "location": { "type": "string" },
+        "notes": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "archived"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "code", "unit", "currentStock", "status"]
+    },
+    "PackagingMaterial": {
+      "title": "PackagingMaterial",
+      "description": "Packaging material inventory item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "type": { "type": "string" },
+        "unit": { "type": "string" },
+        "currentStock": { "type": "number" },
+        "openingStock": { "type": "number" },
+        "minimumStock": { "type": "number" },
+        "unitCost": { "type": "number" },
+        "supplierId": { "type": "string" },
+        "location": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "archived"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "code", "unit", "currentStock", "status"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Manufactured product specification",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "strength": { "type": "string" },
+        "productType": { "type": "string" },
+        "activeFormulaId": { "type": "string" },
+        "packSizes": { "type": "array" },
+        "status": { "type": "string", "enum": ["active", "draft", "discontinued"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["code", "name", "category", "status"]
+    },
+    "Formula": {
+      "title": "Formula",
+      "description": "Dynamic product recipe and formulation version",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "version": { "type": "string" },
+        "status": { "type": "string", "enum": ["draft", "approved", "archived"] },
+        "referenceBatchSize": { "type": "number" },
+        "referenceBatchUnit": { "type": "string" },
+        "ingredients": { "type": "array" },
+        "notes": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "approvedBy": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["productId", "version", "status", "referenceBatchSize", "referenceBatchUnit", "ingredients"]
+    },
+    "PackagingFormula": {
+      "title": "PackagingFormula",
+      "description": "Packaging bill of materials per pack size",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "productId": { "type": "string" },
+        "packSize": { "type": "string" },
+        "name": { "type": "string" },
+        "components": { "type": "array" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["productId", "packSize", "components"]
+    },
+    "ConversionRule": {
+      "title": "ConversionRule",
+      "description": "Custom or material-specific unit conversion density factor",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "materialId": { "type": "string" },
+        "fromUnit": { "type": "string" },
+        "toUnit": { "type": "string" },
+        "factor": { "type": "number" },
+        "notes": { "type": "string" }
+      },
+      "required": ["name", "fromUnit", "toUnit", "factor"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Supplier contact and payment info",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "contactPerson": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "rating": { "type": "number" },
+        "paymentTerms": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive"] }
+      },
+      "required": ["name", "code", "status"]
+    },
+    "InventoryTransaction": {
+      "title": "InventoryTransaction",
+      "description": "Stock ledger transaction entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "transactionType": { "type": "string", "enum": ["opening", "receipt", "issue", "return", "wastage", "adjustment", "dispatch"] },
+        "materialType": { "type": "string", "enum": ["raw", "packaging", "finished"] },
+        "itemId": { "type": "string" },
+        "itemName": { "type": "string" },
+        "itemCode": { "type": "string" },
+        "batchNumber": { "type": "string" },
+        "quantity": { "type": "number" },
+        "unit": { "type": "string" },
+        "unitCost": { "type": "number" },
+        "referenceType": { "type": "string" },
+        "referenceId": { "type": "string" },
+        "notes": { "type": "string" },
+        "performedBy": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["transactionType", "materialType", "itemId", "quantity", "unit"]
+    },
+    "ProductionBatch": {
+      "title": "ProductionBatch",
+      "description": "Factory production batch tracking order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "batchNumber": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "formulaId": { "type": "string" },
+        "formulaVersion": { "type": "string" },
+        "formulaSnapshot": { "type": "object" },
+        "packagingFormulaId": { "type": "string" },
+        "packagingSnapshot": { "type": "object" },
+        "requestedBatchSize": { "type": "number" },
+        "batchUnit": { "type": "string" },
+        "targetPackSize": { "type": "string" },
+        "targetPacksCount": { "type": "number" },
+        "status": { "type": "string", "enum": ["planned", "approved", "in_production", "qa_pending", "completed", "cancelled"] },
+        "assignedOperator": { "type": "string" },
+        "scheduledDate": { "type": "string" },
+        "rawMaterialRequirements": { "type": "array" },
+        "packagingRequirements": { "type": "array" },
+        "actualConsumption": { "type": "array" },
+        "actualPackagingConsumption": { "type": "array" },
+        "goodOutputPacks": { "type": "number" },
+        "rejectedOutputPacks": { "type": "number" },
+        "yieldPercentage": { "type": "number" },
+        "qaNotes": { "type": "string" },
+        "qaInspector": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "approvedBy": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["batchNumber", "productId", "status", "requestedBatchSize", "batchUnit"]
+    },
+    "FinishedGood": {
+      "title": "FinishedGood",
+      "description": "Finished product inventory unit",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "productCode": { "type": "string" },
+        "packSize": { "type": "string" },
+        "batchNumber": { "type": "string" },
+        "productionOrderId": { "type": "string" },
+        "mfgDate": { "type": "string" },
+        "expiryDate": { "type": "string" },
+        "quantity": { "type": "number" },
+        "availableQuantity": { "type": "number" },
+        "unit": { "type": "string" },
+        "qaStatus": { "type": "string", "enum": ["approved", "quarantine", "rejected"] },
+        "warehouseLocation": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["productId", "batchNumber", "packSize", "quantity", "qaStatus"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "System event audit trail",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "entityType": { "type": "string" },
+        "entityId": { "type": "string" },
+        "action": { "type": "string" },
+        "details": { "type": "string" },
+        "performedBy": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["entityType", "action", "timestamp"]
+    },
+    "FactorySettings": {
+      "title": "FactorySettings",
+      "description": "General ERP configuration",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "companyName": { "type": "string" },
+        "currency": { "type": "string" },
+        "address": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "lowStockThresholdDefault": { "type": "number" },
+        "allowNegativeStock": { "type": "boolean" },
+        "defaultAdminEmail": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["companyName", "currency"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "UserProfile" },
+      "description": "User account profiles with RBAC roles"
+    },
+    "/rawMaterials/{materialId}": {
+      "schema": { "$ref": "RawMaterial" },
+      "description": "Raw material items and inventory counts"
+    },
+    "/packagingMaterials/{packagingId}": {
+      "schema": { "$ref": "PackagingMaterial" },
+      "description": "Packaging items and stock"
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "Product" },
+      "description": "Product catalog"
+    },
+    "/formulas/{formulaId}": {
+      "schema": { "$ref": "Formula" },
+      "description": "Formulations and recipe revisions"
+    },
+    "/packagingFormulas/{packFormulaId}": {
+      "schema": { "$ref": "PackagingFormula" },
+      "description": "Packaging bill of materials per pack size"
+    },
+    "/conversionRules/{ruleId}": {
+      "schema": { "$ref": "ConversionRule" },
+      "description": "Mass to volume and custom unit conversion rules"
+    },
+    "/suppliers/{supplierId}": {
+      "schema": { "$ref": "Supplier" },
+      "description": "Vendor suppliers directory"
+    },
+    "/inventoryTransactions/{transactionId}": {
+      "schema": { "$ref": "InventoryTransaction" },
+      "description": "Immutable ledger of all stock movements"
+    },
+    "/productionBatches/{batchId}": {
+      "schema": { "$ref": "ProductionBatch" },
+      "description": "Manufacturing batches and execution lifecycle"
+    },
+    "/finishedGoods/{finishedGoodId}": {
+      "schema": { "$ref": "FinishedGood" },
+      "description": "Finished product inventory batches"
+    },
+    "/auditLogs/{logId}": {
+      "schema": { "$ref": "AuditLog" },
+      "description": "Auditable system activities"
+    },
+    "/settings/{settingsId}": {
+      "schema": { "$ref": "FactorySettings" },
+      "description": "Global ERP configurations"
+    }
+  }
+}
